@@ -1,0 +1,8 @@
+// Cấu hình Ctrl + click để nhảy tới file
+{
+  "compilerOptions": {
+    "paths": {
+      "~/*": ["./src/*"],
+    },
+  }
+}

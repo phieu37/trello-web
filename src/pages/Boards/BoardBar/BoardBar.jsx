@@ -10,7 +10,7 @@ import AvatarGroup from '@mui/material/AvatarGroup'
 import Tooltip from '@mui/material/Tooltip'
 import Button from '@mui/material/Button'
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1'
-
+import { capitalizeFirstLetter } from '~/utils/formatters'
 
 const MENU_STYLES = {
   color: 'white',
@@ -26,7 +26,7 @@ const MENU_STYLES = {
   }
 }
 
-function BoardBar() {
+function BoardBar({ board }) {
   return (
     <Box sx={{
       width: '100%',
@@ -43,37 +43,37 @@ function BoardBar() {
         <Chip
           sx={MENU_STYLES}
           icon={<DashboardIcon />}
-          label="PhieuDev MERN Stack Board"
-          // clickable
-          onClick={() => { }}
+          label={board?.title}
+          clickable
+        // onClick={() => { }}
         />
         <Chip
           sx={MENU_STYLES}
           icon={<VpnLockIcon />}
-          label="Public/Private Workspace"
-          // clickable
-          onClick={() => { }}
+          label={capitalizeFirstLetter(board?.type)}
+          clickable
+        // onClick={() => { }}
         />
         <Chip
           sx={MENU_STYLES}
           icon={<AddToDriveIcon />}
           label="Add To Google Drive"
-          // clickable
-          onClick={() => { }}
+          clickable
+        // onClick={() => { }}
         />
         <Chip
           sx={MENU_STYLES}
           icon={<BoltIcon />}
           label="Automation"
-          // clickable
-          onClick={() => { }}
+          clickable
+        // onClick={() => { }}
         />
         <Chip
           sx={MENU_STYLES}
           icon={<FilterListIcon />}
           label="Filters"
-          // clickable
-          onClick={() => { }}
+          clickable
+        // onClick={() => { }}
         />
       </Box>
 

@@ -19,7 +19,8 @@ import {
 } from '@dnd-kit/core'
 import { arrayMove } from '@dnd-kit/sortable'
 import { useEffect, useState, useCallback, useRef } from 'react'
-import { cloneDeep } from 'lodash'
+import { cloneDeep, isEmpty } from 'lodash'
+import { generatePlaceholderCard } from '~/utils/formatters'
 
 import Column from './ListColumns/Column/Column'
 import Card from './ListColumns/Column/ListCards/Card/Card'
@@ -96,6 +97,13 @@ function BoardContent({ board }) {
       if (nextActiveColumn) {
         // Xóa card ở column active(hiểu là column cũ, lúc mà kéo card ra ngoài nó đưa sang column khác)
         nextActiveColumn.cards = nextActiveColumn.cards.filter(card => card._id !== activeDraggingCardId)
+
+        // Thêm Placeholder Card nếu Column rỗng: Bị kéo hết Card đi, ko còn cái nào(video 37.2)
+        if (isEmpty(nextActiveColumn.cards)) {
+          // console.log('Card cuối cùng bị kéo đi')
+          nextActiveColumn.cards = [generatePlaceholderCard(nextActiveColumn)]
+        }
+
         // Cập nhật lại mảng cardOrderIds cho chuẩn dữ liệu
         nextActiveColumn.cardOrderIds = nextActiveColumn.cards.map(card => card._id)
       }
@@ -112,10 +120,15 @@ function BoardContent({ board }) {
         }
         // Tiếp theo thêm card đang kéo vào overColumn theo vị trí index mới
         nextOverColumn.cards = nextOverColumn.cards.toSpliced(newCardIndex, 0, rebuild_activeDraggingCardData)
+
+        // Xóa Placeholder Card đi nếu nó đang tồn tại(video 37.2)
+        nextOverColumn.cards = nextOverColumn.cards.filter(card => !card.FE_PlaceholderCard)
+
         // Cập nhật lại mảng cardOrderIds cho chuẩn dữ liệu
         nextOverColumn.cardOrderIds = nextOverColumn.cards.map(card => card._id)
       }
 
+      // console.log('nextColumns: ', nextColumns)
       return nextColumns
     })
   }
@@ -281,7 +294,7 @@ function BoardContent({ board }) {
 
     // Tìm các điểm giao nhau, va chạm, trả về 1 mảng các va chạm - intersections với con trỏ
     const pointerIntersections = pointerWithin(args)
-    console.log('pointerIntersections: ', pointerIntersections)
+    // console.log('pointerIntersections: ', pointerIntersections)
 
     // Video 37.1: Nếu pointerIntersections là mảng rỗng, return luôn ko làm gì hét
     // Fix triệt để cái bug flickering của thư viện Dnd-kit trong TH sau:

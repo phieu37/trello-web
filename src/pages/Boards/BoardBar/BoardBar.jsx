@@ -40,40 +40,38 @@ function BoardBar({ board }) {
       bgcolor: (theme) => (theme.palette.mode === 'dark' ? '#34495e' : '#1976d2'),
     }}>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-        <Chip
-          sx={MENU_STYLES}
-          icon={<DashboardIcon />}
-          label={board?.title}
-          clickable
-        // onClick={() => { }}
-        />
+        <Tooltip title={board?.description}>
+          <Chip
+            sx={MENU_STYLES}
+            icon={<DashboardIcon />}
+            label={board?.title}
+            clickable
+          // onClick={() => { }}
+          />
+        </Tooltip>
         <Chip
           sx={MENU_STYLES}
           icon={<VpnLockIcon />}
           label={capitalizeFirstLetter(board?.type)}
           clickable
-        // onClick={() => { }}
         />
         <Chip
           sx={MENU_STYLES}
           icon={<AddToDriveIcon />}
           label="Add To Google Drive"
           clickable
-        // onClick={() => { }}
         />
         <Chip
           sx={MENU_STYLES}
           icon={<BoltIcon />}
           label="Automation"
           clickable
-        // onClick={() => { }}
         />
         <Chip
           sx={MENU_STYLES}
           icon={<FilterListIcon />}
           label="Filters"
           clickable
-        // onClick={() => { }}
         />
       </Box>
 

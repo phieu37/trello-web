@@ -36,11 +36,14 @@ function Card({ card }) {
       sx={{
         cursor: 'pointer',
         boxShadow: '0 1px 1px rgba(0, 0, 0, 0.2)',
+        // C1:
         overflow: 'unset',
-        display: card?.FE_PlaceholderCard ? 'none' : 'block'
+        display: card?.FE_PlaceholderCard ? 'none' : 'block',
         // C2:
         // overflow: card?.FE_PlaceholderCard ? 'hidden' : 'unset',
         // height: card?.FE_PlaceholderCard ? '0px' : 'unset'
+        border: '1px solid transparent',
+        '&:hover': { boderColor: (theme) => theme.palette.primary.main }
       }}>
       {card?.cover && <CardMedia sx={{ height: 140 }} image={card?.cover} title="green iguana" />}
       <CardContent sx={{ p: 1.5, '&:last-child': { p: 1.5 } }}>

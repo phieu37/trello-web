@@ -15,7 +15,7 @@ function ListColumns({ columns, createNewColumn, createNewCard }) {
 
   const [newColumnTitle, setNewColumnTitle] = useState('')
 
-  const addNewColumn = async () => {
+  const addNewColumn = () => {
     if (!newColumnTitle) {
       toast.error('Please enter Column Title')
       return
@@ -31,7 +31,7 @@ function ListColumns({ columns, createNewColumn, createNewCard }) {
     // thì gọi luôn API ở đây là xong thay vì pải lần lượt gọi ngược lên những component
     // cha phía bên trên(Đối với component con nằm càng sâu thì càng khổ)
     // Với việc sử dụng Redux như vậy thì code sẽ Clean chuẩn hơn
-    await createNewColumn(newColumnData)
+    createNewColumn(newColumnData)
 
     // Đóng trạng thái thêm Column mới & Clear Input
     toggleOpenNewColumnForm()

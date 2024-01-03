@@ -24,7 +24,7 @@ import { CSS } from '@dnd-kit/utilities'
 import TextField from '@mui/material/TextField'
 import CloseIcon from '@mui/icons-material/Close'
 
-function Column({ column }) {
+function Column({ column, createNewCard }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: column._id,
     data: { ...column }
@@ -51,13 +51,25 @@ function Column({ column }) {
   const [openNewCardForm, setOpenNewCardForm] = useState(false)
   const toggleOpenNewCardForm = () => setOpenNewCardForm(!openNewCardForm)
   const [newCardTitle, setNewCardTitle] = useState('')
-  const addNewCard = () => {
+
+  const addNewCard = async () => {
     if (!newCardTitle) {
       toast.error('Please enter Card Title', { position: 'bottom-right' })
       return
     }
-    // console.log(newCardTitle)
-    // Gọi APi ở dây..
+
+    // Tạo dữ liệu Column để gọi API
+    const newCardData = {
+      title: newCardTitle,
+      columnId: column._id
+    }
+    
+    // Gọi lên props function createNewColumn nằm ở component cha cao nhất (boards/_id.jsx)
+    // Lưu ý: Về sau ở phần nâng cao đưa dữ liệu Board ra ngoài Redux Global Store
+    // thì gọi luôn API ở đây là xong thay vì pải lần lượt gọi ngược lên những component
+    // cha phía bên trên(Đối với component con nằm càng sâu thì càng khổ)
+    // Với việc sử dụng Redux như vậy thì code sẽ Clean chuẩn hơn
+    await createNewCard(newCardData)
 
     // Đóng trạng thái thêm Card mới & Clear Input
     toggleOpenNewCardForm()
